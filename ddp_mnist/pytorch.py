@@ -1,4 +1,5 @@
 from __future__ import print_function
+from time import time
 import argparse
 import os
 import sys
@@ -89,6 +90,7 @@ def setup_ddp():
     return rank, world_size
 
 def main():
+    t0 = time()
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
@@ -161,6 +163,8 @@ def main():
         torch.save(model.state_dict(), "mnist_cnn.pt")
 
     torch.distributed.destroy_process_group()
+    
+    print(f"TIME SPENT: {time() - t0}")
 
 
 if __name__ == '__main__':

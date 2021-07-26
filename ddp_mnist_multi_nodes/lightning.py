@@ -7,6 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
+from time import time
 from torchmetrics import Accuracy, MetricCollection
 from torch.utils.data import DataLoader
 
@@ -106,6 +107,7 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
+    t0 = time()
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
@@ -152,6 +154,8 @@ def main():
 
     if args.save_model:
         trainer.save_checkpoint("mnist_cnn.pt")
+
+    print(f"TIME SPENT: {time() - t0}")
 
 
 if __name__ == '__main__':
