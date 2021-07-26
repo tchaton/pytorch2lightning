@@ -7,6 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
+from time import time
 from torchmetrics import Accuracy, MetricCollection
 from torch.utils.data import DataLoader
 
@@ -106,13 +107,14 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
+    t0 = time()
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=14, metavar='N',
+    parser.add_argument('--epochs', type=int, default=3, metavar='N',
                         help='number of epochs to train (default: 14)')
     parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
                         help='learning rate (default: 1.0)')
@@ -144,13 +146,14 @@ def main():
     net =  Net()
     model = LiftModel(net, num_classes=dm.num_classes, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, profiler="pytorch", accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, accelerator="ddp")
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
     if args.save_model:
         trainer.save_checkpoint("mnist_cnn.pt")
 
+    print(f"TIME SPENT: {time() - t0}")
 
 if __name__ == '__main__':
     main()
