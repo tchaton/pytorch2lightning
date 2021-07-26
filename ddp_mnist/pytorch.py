@@ -114,9 +114,7 @@ def main():
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
-    ###### SETUP PROGRESS GROUP
     rank, world_size = setup_ddp()
-    ###### SETUP PROGRESS GROUP
 
     torch.cuda.set_device(f"cuda:{rank}")
 
@@ -142,18 +140,14 @@ def main():
     dataset2 = datasets.MNIST('../data', train=False,
                        transform=transform)
 
-    ###### ADDING SAMPLERS
     sampler1 = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
     sampler2 = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
     train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, sampler=sampler1)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, sampler=sampler2)
-    ###### ADDING SAMPLERS
 
     model = Net().to(device)
 
-    ###### ADDING DDP Wrapped
     model = DistributedDataParallel(model, device_ids=[rank])
-    ###### ADDING DDP Wrapped
 
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
@@ -163,14 +157,11 @@ def main():
         test(model, device, test_loader)
         scheduler.step()
 
-    ###### PREVENT RANK 1 TO WRITE A CHECKPOINT
     if args.save_model and rank == 0:
         torch.save(model.state_dict(), "mnist_cnn.pt")
 
-    ###### DESTROY PROCESS GROUP
     torch.distributed.destroy_process_group()
 
 
 if __name__ == '__main__':
-    # python WORLD_SIZE=2 RANK=X ddp_mnist/pytorch.py
     main()

@@ -81,9 +81,7 @@ def train(args, model, device, train_loader, optimizer, epoch):
                 if args.dry_run:
                     break
             
-            ###### STEP PROFILER
             prof.step()
-            ###### STEP PROFILER
 
 
 def test(model, device, test_loader):
