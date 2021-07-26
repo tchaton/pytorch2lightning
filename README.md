@@ -16,7 +16,7 @@
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
-# DDP MNIST + Profiling + Multi Nodes
+# DDP MNIST + Multi Nodes
 
 ```bash
 pip install lightning-grid
