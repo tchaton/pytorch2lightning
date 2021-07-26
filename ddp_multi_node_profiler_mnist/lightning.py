@@ -144,7 +144,7 @@ def main():
     net =  Net()
     model = LiftModel(net, num_classes=dm.num_classes, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, num_nodes=2, gpus=1 if use_cuda else 0, profiler="pytorch", accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs, num_nodes=2, gpus=1 if use_cuda else 0, accelerator="ddp")
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
