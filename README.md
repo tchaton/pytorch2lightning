@@ -20,6 +20,7 @@
 
 ```bash
 pip install lightning-grid
+cd ddp_mnist_multi_nodes/
 grid run --instance_type g4dn.xlarge --framework lightning --gpus 2  lightning.py
 ```
 
