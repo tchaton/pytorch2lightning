@@ -20,9 +20,13 @@
 
 ```bash
 pip install lightning-grid
+grid run --instance_type g4dn.xlarge --framework lightning --gpus 2  lightning.py
 ```
 
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
-* [PyTorch] Doesn't supported.
+* [PyTorch] Not supported.
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
+
+
+# Lightning contains hundreds of features working together and highly tested for speed and reproducibility. This is the results of 3+ years with 500+ contributors to get there.
