@@ -29,4 +29,4 @@ Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
 
-# Lightning contains hundreds of features working together and highly tested for speed and reproducibility. This is the results of 3+ years with 500+ contributors to get there.
+## Lightning contains hundreds of features working together and highly tested for speed and reproducibility. This is the results of 3+ years with 500+ contributors to get there.
