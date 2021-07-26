@@ -22,5 +22,7 @@
 pip install lightning-grid
 ```
 
-* [PyTorch] X
+Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
+
+* [PyTorch] Doesn't supported.
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
