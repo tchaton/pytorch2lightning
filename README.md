@@ -30,3 +30,5 @@ Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
 
 ## Lightning contains hundreds of features working together and highly tested for speed and reproducibility.
+
+Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
