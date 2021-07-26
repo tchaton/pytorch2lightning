@@ -29,6 +29,6 @@ Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
 
-## Lightning contains hundreds of features working together and highly tested for speed and reproducibility.
+## Lightning contains hundreds of features working together and highly tested for speed and reproducibility. I won't re-implement them all in pure PyTorch :)
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
