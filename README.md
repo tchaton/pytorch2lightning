@@ -1,6 +1,6 @@
 # Pytorch 2 Lightning Examples
 
-# Bare MNIST
+# Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py)
 * [Lightning](bare_mnist/lightning.py)
 
