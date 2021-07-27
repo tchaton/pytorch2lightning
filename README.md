@@ -21,7 +21,7 @@
 ```bash
 pip install lightning-grid
 cd ddp_mnist_grid/
-grid run --instance_type p3.8xlarge --use_spot ddp_mnist_grid/lightning.py
+grid run --instance_type p3.8xlarge --use_spot lightning.py
 ```
 
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
