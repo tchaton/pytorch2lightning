@@ -16,12 +16,12 @@
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
-# DDP MNIST + Profiling + Grid
+# DDP MNIST + Profiling + Lightning Grid
 
 ```bash
 pip install lightning-grid
-cd ddp_mnist_multi_nodes/
-grid run --instance_type p3.8xlarge --use_spot ddp_mnist_grid/lightning.py
+grid datastore create --name mnist --source data
+grid run --instance_type g4dn.xlarge --datastore_name mnist --use_spot ddp_mnist_grid/lightning.py
 ```
 
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
@@ -30,6 +30,6 @@ Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
 
-## Lightning contains hundreds of features working together and highly tested for speed and reproducibility. I won't re-implement them all in pure PyTorch :)
+## Lightning contains hundreds of features working together and highly tested for reproducibility, scalabitlity and inter-operability.
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)

@@ -94,7 +94,6 @@ class MnistDataModule(LightningDataModule):
             transforms.Normalize((0.1307,), (0.3081,))
         ])
 
-        datasets.MNIST('data', download=True)
         self.num_classes = 10
 
     def train_dataloader(self):
