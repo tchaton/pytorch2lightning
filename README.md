@@ -1,6 +1,6 @@
 # Pytorch 2 Lightning Examples
 
-# Bare MNIST
+# Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py)
 * [Lightning](bare_mnist/lightning.py)
 
@@ -16,16 +16,17 @@
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
-# DDP MNIST + Profiling
+# DDP MNIST + Profiling + Grid
 
 ```bash
 pip install lightning-grid
-grid run --instance_type g4dn.xlarge --framework lightning --gpus 2  lightning.py
+cd ddp_mnist_multi_nodes/
+grid run --instance_type p3.8xlarge --use_spot ddp_mnist_grid/lightning.py
 ```
 
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
-* [PyTorch] Not supported.
+* [PyTorch] Need to use a cloud solution. Code changes ...
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
 

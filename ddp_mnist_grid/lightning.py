@@ -159,5 +159,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # grid run --instance_type p3.8xlarge --use_spot ddp_mnist_grid/lightning.py
     main()
