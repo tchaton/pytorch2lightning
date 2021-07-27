@@ -20,7 +20,7 @@
 
 ```bash
 pip install lightning-grid
-cd ddp_mnist_multi_nodes/
+cd ddp_mnist_grid/
 grid run --instance_type p3.8xlarge --use_spot ddp_mnist_grid/lightning.py
 ```
 
