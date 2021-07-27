@@ -12,7 +12,7 @@
 * [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +5 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | +0 lines 
 
-# DDP MNIST + Profiling
+# DDP MNIST + Profiling + Accumulate gradients
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 

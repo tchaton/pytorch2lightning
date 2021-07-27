@@ -39,12 +39,11 @@ class Net(nn.Module):
         return output
 
 
-def train(args, model, device, train_loader, optimizer, epoch):
+def train(args, model, device, train_loader, optimizer, epoch, accumulate_grad_batches):
     model.train()
 
-    ###### SETUP PROFILER
     my_schedule = schedule(
-        skip_first=2,
+        skip_first=0,
         wait=1,
         warmup=1,
         active=1,
@@ -57,13 +56,12 @@ def train(args, model, device, train_loader, optimizer, epoch):
         p.export_chrome_trace("/tmp/trace_" + str(p.step_num) + ".json")
 
     with profile(
-        activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+        activities=[ProfilerActivity.CPU],
         with_stack=False,
         schedule=my_schedule,
         on_trace_ready=trace_handler,
 
     ) as prof:
-    ###### SETUP PROFILER
         for batch_idx, (data, target) in enumerate(train_loader):
             with record_function("transfer_data"):
                 data, target = data.to(device), target.to(device)
@@ -73,7 +71,8 @@ def train(args, model, device, train_loader, optimizer, epoch):
                 loss = F.nll_loss(output, target)
             with record_function("backward"):
                 loss.backward()
-            optimizer.step()
+            if batch_idx % accumulate_grad_batches == 0:
+                optimizer.step()
             if batch_idx % args.log_interval == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                     epoch, batch_idx * len(data), len(train_loader.dataset),
@@ -184,7 +183,7 @@ def main():
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
-        train(args, model, device, train_loader, optimizer, epoch)
+        train(args, model, device, train_loader, optimizer, epoch, 2)
         test(model, device, test_loader)
         scheduler.step()
 
