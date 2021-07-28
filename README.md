@@ -53,7 +53,7 @@ pip install lightning-grid --upgrade
 
 
 ```bash
-grid run --instance_type 4_M60_8gb ddp_mnist_grid/lightning.py --max_epochs 2 --gpus 4 --accelerator ddp
+grid run --instance_type 4_M60_8gb ddp_mnist_grid/lightning.py --trainer.max_epochs 2 --trainer.gpus 4 --trainer.accelerator ddp
 ```
 
 With [Grid DataStores](https://docs.grid.ai/products/global-cli-configs/cli-api/grid-datastores), low-latency, highly-scalable auto-versioned dataset.
