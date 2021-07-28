@@ -116,8 +116,6 @@ def main(rank, world_size, ddp_spawn):
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
     parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
-    parser.add_argument('--seed', type=int, default=42, metavar='N',
-                        help='the current seed for this experiment')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
