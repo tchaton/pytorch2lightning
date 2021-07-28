@@ -45,12 +45,13 @@ cd ddp_mnist_grid/
 grid run --instance_type p3.8xlarge --use_spot lightning.py
 ```
 
-Grid.ai makes multi nodes easy :rocket:
+[Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket:
+
 
 ```bash
 pip install lightning-grid
 cd ddp_mnist_grid/
-grid run --instance_type p3.8xlarge --gpus 2 --use_spot lightning.py
+grid run --instance_type 8_V100_32gb --gpus 16 --use_spot lightning.py # automatically creates 2 nodes with 8 V100 each !
 ```
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
