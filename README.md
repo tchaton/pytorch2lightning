@@ -31,6 +31,7 @@ The repository shows :
 * Lightning | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
+Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 
 ## Training on Grid.ai
 
