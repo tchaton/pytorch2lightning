@@ -41,8 +41,7 @@ Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/p
 
 ```bash
 pip install lightning-grid
-cd ddp_mnist_grid/
-grid run --instance_type p3.8xlarge --use_spot lightning.py
+grid run --instance_type p3.8xlarge ddp_mnist_grid/lightning.py --gpus 4 --accelerator ddp
 ```
 
 [Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket:
@@ -50,8 +49,7 @@ grid run --instance_type p3.8xlarge --use_spot lightning.py
 
 ```bash
 pip install lightning-grid
-cd ddp_mnist_grid/
-grid run --instance_type 8_V100_32gb --gpus 16 --use_spot lightning.py # automatically creates 2 nodes with 8 V100 each !
+grid run --instance_type g4dn.12xlarge --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 1 --gpus 4 --num_nodes 2 --precision 16 --deepspeed_stage_3
 ```
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
