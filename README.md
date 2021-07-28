@@ -44,7 +44,7 @@ pip install lightning-grid --upgrade
 grid run --instance_type p3.8xlarge ddp_mnist_grid/lightning.py --gpus 4 --accelerator ddp
 ```
 
-[Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket:
+[Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket: Training on 2 nodes with 4 GPUS using DeepSpeed Zero-3 :fire:
 
 
 ```bash
