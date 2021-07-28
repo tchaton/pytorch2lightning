@@ -16,7 +16,9 @@
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
-# DDP MNIST + Grid
+# DDP MNIST + Grid.ai
+
+Grid.ai is the MLOps Platform from the creators of PyTorch Lightning. 
 
 ```bash
 pip install lightning-grid
