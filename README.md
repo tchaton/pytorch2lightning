@@ -31,6 +31,7 @@ The repository will show you the followings:
 * [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
+PyTorch Lightning 1.4 is out ! Here is our [CHANGELOG](https://github.com/PyTorchLightning/pytorch-lightning/releases/tag/1.4.0).
 
 Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 
