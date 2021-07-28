@@ -118,7 +118,7 @@ def main():
 
     trainer = Trainer.from_argparse_args(args)
     trainer.fit(model, datamodule=dm)
-    trainer.test(datamodule=dm)
+    trainer.test(model, datamodule=dm)
 
     if args.save_model:
         trainer.save_checkpoint("mnist_cnn.pt")
