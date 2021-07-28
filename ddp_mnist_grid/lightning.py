@@ -101,6 +101,7 @@ def main():
     cli.trainer.test(cli.model, datamodule=cli.datamodule)
     if cli.trainer.is_global_zero:
         cli.trainer.save_checkpoint("mnist_cnn.pt")
+        print("Great work ! You have just trained on https://www.grid.ai/")
 
 
 if __name__ == '__main__':
