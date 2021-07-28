@@ -43,7 +43,7 @@ class LiftModel(LightningModule):
         gamma: Learning rate step gamma
     """
 
-    def __init__(self, model: nn.Module=None, lr: float = 1.0, gamma: float = 0.7):
+    def __init__(self, model: nn.Module = None, lr: float = 1.0, gamma: float = 0.7):
         super().__init__()
         self.save_hyperparameters()
         self.model = model or Net()
@@ -76,7 +76,7 @@ class MnistDataModule(LightningDataModule):
         shuffle:
     """
 
-    def __init__(self, train_batch_size: int =64, test_batch_size: int =1000, num_workers: int =1, pin_memory: bool=True, shuffle: bool=True):
+    def __init__(self, train_batch_size: int = 64, test_batch_size: int = 1000, num_workers: int = 1, pin_memory: bool = True, shuffle: bool = True):
         super().__init__()
         save_hyperparameters(self)
         self.transforms = transforms.Compose([
@@ -94,7 +94,8 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
-    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=2 if torch.cuda.is_available() else 0, accelerator="ddp"))
+    n_gpus = 2 if torch.cuda.device_count() >= 2 else 0
+    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=n_gpus, accelerator="ddp"))
     cli.trainer.test(datamodule=cli.datamodule)
     cli.trainer.save_checkpoint("mnist_cnn.pt")
 

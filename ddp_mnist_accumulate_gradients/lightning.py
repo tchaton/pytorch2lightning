@@ -44,7 +44,7 @@ class LiftModel(LightningModule):
         gamma: Learning rate step gamma
     """
 
-    def __init__(self, model: nn.Module=None, lr: float = 1.0, gamma: float = 0.7):
+    def __init__(self, model: nn.Module = None, lr: float = 1.0, gamma: float = 0.7):
         super().__init__()
         self.save_hyperparameters()
         self.model = model or Net()
@@ -65,6 +65,7 @@ class LiftModel(LightningModule):
         optimizer = optim.Adadelta(self.parameters(), lr=self.hparams.lr)
         scheduler = StepLR(optimizer, step_size=1, gamma=self.hparams.gamma)
         return [optimizer], [scheduler]
+
 
 class MnistDataModule(LightningDataModule):
     """

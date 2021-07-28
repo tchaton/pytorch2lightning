@@ -9,10 +9,10 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
-###### Distributed Training Releated Imports
+# Distributed Training Releated Imports
 from torch.nn.parallel.distributed import DistributedDataParallel
 from torch.utils.data import DistributedSampler
-###### Distributed Training Releated Imports
+# Distributed Training Releated Imports
 
 
 class Net(nn.Module):
@@ -77,7 +77,7 @@ def test(model, device, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 
-###### Create progress group
+# Create progress group
 def setup_ddp():
     """Setup ddp enviroment"""
     os.environ["MASTER_ADDR"] = "localhost"
@@ -91,7 +91,8 @@ def setup_ddp():
         torch.distributed.init_process_group("nccl", rank=rank, world_size=world_size)
 
     return rank, world_size
-###### Create progress group
+# Create progress group
+
 
 def main():
     t0 = time()
@@ -118,10 +119,10 @@ def main():
     use_cuda = torch.cuda.is_available()
 
     if args.use_ddp:
-        ###### Setup DDP
+        # Setup DDP
         rank, world_size = setup_ddp()
         torch.cuda.set_device(f"cuda:{rank}")
-        ###### Setup DDP
+        # Setup DDP
 
     torch.manual_seed(args.seed)
 
@@ -130,36 +131,32 @@ def main():
     train_kwargs = {'batch_size': args.batch_size}
     test_kwargs = {'batch_size': args.test_batch_size}
     if use_cuda:
-        cuda_kwargs = {'num_workers': 1,
-                       'pin_memory': True,
-        }
+        cuda_kwargs = {'num_workers': 1, 'pin_memory': True}
         train_kwargs.update(cuda_kwargs)
         test_kwargs.update(cuda_kwargs)
 
-    transform=transforms.Compose([
+    transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
-        ])
-    dataset1 = datasets.MNIST('../data', train=True, download=True,
-                       transform=transform)
-    dataset2 = datasets.MNIST('../data', train=False,
-                       transform=transform)
+    ])
+    dataset1 = datasets.MNIST('../data', train=True, download=True, transform=transform)
+    dataset2 = datasets.MNIST('../data', train=False, transform=transform)
 
-    ###### Create distributed Sampler
+    # Create distributed Sampler
     if args.use_ddp:
         train_kwargs['sampler'] = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
         test_kwargs['sampler'] = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
-    
+
     train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
-    ###### Create distributed Sampler
+    # Create distributed Sampler
 
     model = Net().to(device)
 
     if args.use_ddp:
-        ###### Wrap into DistributedDataParallel
+        # Wrap into DistributedDataParallel
         model = DistributedDataParallel(model, device_ids=[rank])
-        ###### Wrap into DistributedDataParallel
+        # Wrap into DistributedDataParallel
 
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
@@ -169,16 +166,16 @@ def main():
         test(model, device, test_loader)
         scheduler.step()
 
-    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
+    # Save only on rank 0 to avoid rank 1 to overrides the checkpoint
     if not args.use_ddp or rank == 0:
         torch.save(model.state_dict(), "mnist_cnn.pt")
-    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
+    # Save only on rank 0 to avoid rank 1 to overrides the checkpoint
 
     if args.use_ddp:
-        ###### Teardown
+        # Teardown
         torch.distributed.destroy_process_group()
-        ###### Teardown
-    
+        # Teardown
+
     print(f"TIME SPENT: {time() - t0}")
 
 
