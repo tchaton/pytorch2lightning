@@ -72,9 +72,9 @@ class MnistDataModule(LightningDataModule):
     Args:
         train_batch_size: input batch size for training
         test_batch_size: input batch size for testing
-        num_workers:
-        pin_memory:
-        shuffle:
+        num_workers: num workers to be used with the DataLoader
+        pin_memory: Whether to pin the tensors when running on cuda
+        shuffle: Whether to shuffle the training data
     """
 
     def __init__(self, train_batch_size: int = 64, test_batch_size: int = 1000, num_workers: int = 1, pin_memory: bool = True, shuffle: bool = True):

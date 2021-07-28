@@ -4,7 +4,7 @@ The repository will show you how to:
 * Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 * ExtendPure PyTorch trivially with Lightning best practice features.
 * Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes
-* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and 15+ models.
+* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and 15+ production ready tasks.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
@@ -126,3 +126,12 @@ trainer.save_checkpoint("video_classification.pt")
 Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
 
 Credit to Andrej Karpathy for providing an implementation of minGPT.
+
+
+#### Troubleshooting
+
+Kill ddp processes
+
+```bash
+sudo kill -9 $(ps -aef | grep -i '{REPLACE_ME_BY_SCRIPT_NAME}' | grep -v 'grep' | awk '{ print $2 }')
+```

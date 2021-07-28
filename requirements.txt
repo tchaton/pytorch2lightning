@@ -5,3 +5,4 @@ pytorch-lightning==1.4.0
 deepspeed==0.4.1
 fairscale
 torchvision
+jsonargparse
