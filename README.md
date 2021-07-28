@@ -131,7 +131,7 @@ Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com
 Credit to Andrej Karpathy for providing an implementation of minGPT.
 
 
-#### Troubleshooting
+## Troubleshooting
 
 Kill ddp processes
 
