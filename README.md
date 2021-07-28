@@ -30,7 +30,8 @@ The repository shows :
 * PyTorch | :sob: + large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
 * Lightning | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
-Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
+Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
+
 Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 
 ## Training on Grid.ai
