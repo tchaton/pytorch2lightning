@@ -30,6 +30,8 @@ The repository shows :
 * PyTorch | + large number of lines 
 * Lightning | Still ~ 126 lines
 
+Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
+
 ## Training on Grid.ai
 
 [Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of PyTorch Lightning. 
@@ -41,14 +43,6 @@ grid run --instance_type p3.8xlarge --use_spot lightning.py
 ```
 
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
-
-* [PyTorch] Need to use a cloud solution. Code changes ...
-* [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines 
-
-
-## Lightning contains hundreds of features working together and highly tested for reproducibility, scalabitlity and inter-operability.
-
-Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
 
 
 ### Credits
