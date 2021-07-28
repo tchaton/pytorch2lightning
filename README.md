@@ -7,20 +7,24 @@ The repository shows :
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
 # Bare MNIST
-* [PyTorch](bare_mnist/pytorch.py)
-* [Lightning](bare_mnist/lightning.py)
+* [PyTorch](bare_mnist/pytorch.py) | 137 lines 
+* [Lightning](bare_mnist/lightning.py) | 126 lines 
 
-# DDP MNIST
-* [PyTorch](ddp_mnist/pytorch.py) | +30 lines 
-* [Lightning](ddp_mnist/lightning.py) | +0 lines 
+# Add DDP Support
+* [PyTorch](ddp_mnist/pytorch.py) | 190 lines
+* [Lightning](ddp_mnist/lightning.py) | 126 lines: -64 lines
 
-# DDP MNIST + Accumulate gradients
-* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +35 lines 
-* [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | +0 lines 
+# Add DDP Spawn Support
+* [PyTorch](ddp_mnist_spawn/lightning.py) | 197 lines
+* [Lightning](ddp_mnist_spawn/lightning.py) | 126 lines: -71 lines
 
-# DDP MNIST + Profiling + Accumulate gradients
-* [PyTorch](ddp_profiler_mnist/pytorch.py) | +60 lines 
-* [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
+# Add DDP Accumulated Grad Batches Support
+* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +199 lines 
+* [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
+
+# Add Profiling Support
+* [PyTorch](ddp_profiler_mnist/pytorch.py) | +226 lines 
+* [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
 # DDP MNIST + Grid.ai
 
@@ -35,7 +39,7 @@ grid run --instance_type p3.8xlarge --use_spot lightning.py
 Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
 * [PyTorch] Need to use a cloud solution. Code changes ...
-* [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
+* [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines 
 
 
 ## Lightning contains hundreds of features working together and highly tested for reproducibility, scalabitlity and inter-operability.

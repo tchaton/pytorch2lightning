@@ -14,9 +14,6 @@ from torch.nn.parallel.distributed import DistributedDataParallel
 from torch.utils.data import DistributedSampler
 import torch.multiprocessing as mp
 ###### Distributed Training Releated Imports
-###### Profling Related Imports
-from torch.profiler import profile, record_function, ProfilerActivity, schedule
-###### Profling Related Imports
 
 
 class Net(nn.Module):
@@ -45,46 +42,21 @@ class Net(nn.Module):
         return output
 
 
-def train(args, model, device, train_loader, optimizer, epoch, accumulate_grad_batches):
+def train(args, model, device, train_loader, optimizer, epoch):
     model.train()
-
-    my_schedule = schedule(
-        skip_first=0,
-        wait=1,
-        warmup=1,
-        active=1,
-        repeat=1
-    )
-
-    def trace_handler(p):
-        output = p.key_averages().table(sort_by="self_cuda_time_total", row_limit=10)
-        print(output)
-        p.export_chrome_trace("/tmp/trace_" + str(p.step_num) + ".json")
-
-    with profile(
-        activities=[ProfilerActivity.CPU],
-        with_stack=False,
-        schedule=my_schedule,
-        on_trace_ready=trace_handler,
-
-    ) as prof:
-
-        for batch_idx, (data, target) in enumerate(train_loader):
-            data, target = data.to(device), target.to(device)
-            optimizer.zero_grad()
-            output = model(data)
-            loss = F.nll_loss(output, target)
-            loss.backward()
-            if (batch_idx % accumulate_grad_batches == 0 or batch_idx == len(train_loader) - 1):
-                optimizer.step()
-            if batch_idx % args.log_interval == 0:
-                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                    epoch, batch_idx * len(data), len(train_loader.dataset),
-                    100. * batch_idx / len(train_loader), loss.item()))
-                if args.dry_run:
-                    break
-
-            prof.step()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(device), target.to(device)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = F.nll_loss(output, target)
+        loss.backward()
+        optimizer.step()
+        if batch_idx % args.log_interval == 0:
+            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                epoch, batch_idx * len(data), len(train_loader.dataset),
+                100. * batch_idx / len(train_loader), loss.item()))
+            if args.dry_run:
+                break
 
 
 def test(model, device, test_loader):
@@ -144,7 +116,6 @@ def main(rank, world_size, ddp_spawn):
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
     parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
-    parser.add_argument('--accumulate_grad_batches', type=int, default=2, metavar='N', help='How to perform gradient accumulation')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -196,7 +167,7 @@ def main(rank, world_size, ddp_spawn):
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
-        train(args, model, device, train_loader, optimizer, epoch, args.accumulate_grad_batches)
+        train(args, model, device, train_loader, optimizer, epoch)
         test(model, device, test_loader)
         scheduler.step()
 

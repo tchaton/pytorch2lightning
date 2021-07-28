@@ -1,4 +1,5 @@
 from __future__ import print_function
+from time import time
 import argparse
 import os
 import sys
@@ -8,8 +9,11 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
+###### Distributed Training Releated Imports
 from torch.nn.parallel.distributed import DistributedDataParallel
 from torch.utils.data import DistributedSampler
+import torch.multiprocessing as mp
+###### Distributed Training Releated Imports
 
 
 class Net(nn.Module):
@@ -46,12 +50,8 @@ def train(args, model, device, train_loader, optimizer, epoch, accumulate_grad_b
         output = model(data)
         loss = F.nll_loss(output, target)
         loss.backward()
-
-        ###### STEP BASED ON ACCUMULATE GRAD BATCHES
-        if batch_idx % accumulate_grad_batches == 0:
+        if (batch_idx % accumulate_grad_batches == 0 or batch_idx == len(train_loader) - 1):
             optimizer.step()
-        ###### SETUP PROGRESS GROUP
-
         if batch_idx % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
@@ -79,28 +79,28 @@ def test(model, device, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 
-def setup_ddp():
+###### Create progress group
+def setup_ddp(rank, world_size):
     """Setup ddp enviroment"""
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = "8088"
-    rank = int(os.getenv("LOCAL_RANK"))
-    world_size = int(os.getenv("WORLD_SIZE"))
+    create_progress_group(rank, world_size)
 
+def create_progress_group(rank, world_size):
     print(f"REGISTERING RANK {rank}")
-
     if torch.distributed.is_available() and sys.platform not in ("win32", "cygwin"):
         torch.distributed.init_process_group("nccl", rank=rank, world_size=world_size)
+###### Create progress group
 
-    return rank, world_size
-
-def main():
+def main(rank, world_size, ddp_spawn):
+    t0 = time()
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=14, metavar='N',
+    parser.add_argument('--epochs', type=int, default=3, metavar='N',
                         help='number of epochs to train (default: 14)')
     parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
                         help='learning rate (default: 1.0)')
@@ -116,12 +116,16 @@ def main():
                         help='how many batches to wait before logging training status')
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
+    parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
+    parser.add_argument('--accumulate_grad_batches', type=int, default=2, metavar='N', help='How to perform gradient accumulation')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
-    rank, world_size = setup_ddp()
-
-    torch.cuda.set_device(f"cuda:{rank}")
+    if args.use_ddp:
+        ###### Setup DDP
+        setup_ddp(rank, world_size)
+        torch.cuda.set_device(f"cuda:{rank}")
+        ###### Setup DDP
 
     torch.manual_seed(args.seed)
 
@@ -145,28 +149,51 @@ def main():
     dataset2 = datasets.MNIST('../data', train=False,
                        transform=transform)
 
-    sampler1 = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
-    sampler2 = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
-    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, sampler=sampler1)
-    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, sampler=sampler2)
+    ###### Create distributed Sampler
+    if args.use_ddp:
+        train_kwargs['sampler'] = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
+        test_kwargs['sampler'] = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
+    
+    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
+    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
+    ###### Create distributed Sampler
 
     model = Net().to(device)
 
-    model = DistributedDataParallel(model, device_ids=[rank])
+    if args.use_ddp:
+        ###### Wrap into DistributedDataParallel
+        model = DistributedDataParallel(model, device_ids=[rank])
+        ###### Wrap into DistributedDataParallel
+
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
-        train(args, model, device, train_loader, optimizer, epoch, 2)
+        train(args, model, device, train_loader, optimizer, epoch, args.accumulate_grad_batches)
         test(model, device, test_loader)
         scheduler.step()
 
-    if args.save_model and rank == 0:
+    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
+    if args.save_model and (not args.use_ddp or rank == 0):
         torch.save(model.state_dict(), "mnist_cnn.pt")
+    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
 
-    torch.distributed.destroy_process_group()
+    if args.use_ddp:
+        ###### Teardown
+        torch.distributed.destroy_process_group()
+        ###### Teardown
+    
+    print(f"TIME SPENT: {time() - t0}")
 
 
 if __name__ == '__main__':
-    # python WORLD_SIZE=2 RANK=X ddp_mnist/pytorch.py
-    main()
+    use_spawn = int(os.getenv("USE_SPAWN", 1))
+    worldsize = int(os.getenv("WORLD_SIZE", 2))
+
+    if use_spawn:
+        # WORLD_SIZE=2 USE_SPAWN=1 python ddp_mnist_spawn/pytorch.py
+        mp.spawn(main, args=(worldsize, use_spawn), nprocs=worldsize)
+    else:
+        # terminal 1: WORLD_SIZE=2 LOCAL_RANK=1 python ddp_mnist_spawn/pytorch.py
+        # terminal 2: WORLD_SIZE=2 LOCAL_RANK=0 python ddp_mnist_spawn/pytorch.py
+        main(int(os.getenv("LOCAL_RANK")), worldsize, use_spawn)

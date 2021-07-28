@@ -9,6 +9,7 @@ from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
 from torchmetrics import Accuracy, MetricCollection
 from torch.utils.data import DataLoader
+from pytorch_lightning.profiler.pytorch import PyTorchProfiler, ProfilerActivity
 
 
 class Net(nn.Module):
@@ -144,7 +145,7 @@ def main():
     net =  Net()
     model = LiftModel(net, num_classes=dm.num_classes, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, profiler="pytorch", accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, profiler=PyTorchProfiler(activities=[ProfilerActivity.CPU]), accelerator="ddp")
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 

@@ -9,8 +9,10 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
+###### Distributed Training Releated Imports
 from torch.nn.parallel.distributed import DistributedDataParallel
 from torch.utils.data import DistributedSampler
+###### Distributed Training Releated Imports
 
 
 class Net(nn.Module):
@@ -75,6 +77,7 @@ def test(model, device, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 
+###### Create progress group
 def setup_ddp():
     """Setup ddp enviroment"""
     os.environ["MASTER_ADDR"] = "localhost"
@@ -88,6 +91,7 @@ def setup_ddp():
         torch.distributed.init_process_group("nccl", rank=rank, world_size=world_size)
 
     return rank, world_size
+###### Create progress group
 
 def main():
     t0 = time()
@@ -113,12 +117,15 @@ def main():
                         help='how many batches to wait before logging training status')
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
+    parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
-    rank, world_size = setup_ddp()
-
-    torch.cuda.set_device(f"cuda:{rank}")
+    if args.use_ddp:
+        ###### Setup DDP
+        rank, world_size = setup_ddp()
+        torch.cuda.set_device(f"cuda:{rank}")
+        ###### Setup DDP
 
     torch.manual_seed(args.seed)
 
@@ -142,14 +149,21 @@ def main():
     dataset2 = datasets.MNIST('../data', train=False,
                        transform=transform)
 
-    sampler1 = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
-    sampler2 = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
-    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs, sampler=sampler1)
-    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs, sampler=sampler2)
+    ###### Create distributed Sampler
+    if args.use_ddp:
+        train_kwargs['sampler'] = DistributedSampler(dataset1, num_replicas=world_size, rank=rank, shuffle=False)
+        test_kwargs['sampler'] = DistributedSampler(dataset2, num_replicas=world_size, rank=rank, shuffle=False)
+    
+    train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
+    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
+    ###### Create distributed Sampler
 
     model = Net().to(device)
 
-    model = DistributedDataParallel(model, device_ids=[rank])
+    if args.use_ddp:
+        ###### Wrap into DistributedDataParallel
+        model = DistributedDataParallel(model, device_ids=[rank])
+        ###### Wrap into DistributedDataParallel
 
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
@@ -159,10 +173,15 @@ def main():
         test(model, device, test_loader)
         scheduler.step()
 
-    if args.save_model and rank == 0:
+    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
+    if args.save_model and (not args.use_ddp or rank == 0):
         torch.save(model.state_dict(), "mnist_cnn.pt")
+    ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
 
-    torch.distributed.destroy_process_group()
+    if args.use_ddp:
+        ###### Teardown
+        torch.distributed.destroy_process_group()
+        ###### Teardown
     
     print(f"TIME SPENT: {time() - t0}")
 

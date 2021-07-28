@@ -7,9 +7,9 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
-from time import time
 from torchmetrics import Accuracy, MetricCollection
 from torch.utils.data import DataLoader
+from pytorch_lightning.utilities.parsing import save_hyperparameters
 
 
 class Net(nn.Module):
@@ -40,26 +40,15 @@ class Net(nn.Module):
 
 class LiftModel(LightningModule):
 
-    def __init__(self, model, num_classes: int, lr: float, gamma: float):
+    def __init__(self, model, lr: float, gamma: float):
         super().__init__()
         self.save_hyperparameters()
         self.model = model
-        self.metrics = MetricCollection({
-            "train_acc": Accuracy(),
-            "test_acc": Accuracy()
-        }) 
-        self.lr = lr
-        self.gamma = gamma
 
     def shared_step(self, batch, stage):
         data, target = batch
         output = self.model(data)
         loss = F.nll_loss(output, target, reduction='sum')
-        acc = self.metrics[f"{stage}_acc"](output, target)
-        self.log_dict({
-            f"{stage}_acc": acc,
-            f"{stage}_loss": loss,
-        }, prog_bar=True)
         return loss
 
     def training_step(self, batch, batch_idx):
@@ -69,51 +58,37 @@ class LiftModel(LightningModule):
         self.shared_step(batch, "test")
 
     def configure_optimizers(self):
-        optimizer = optim.Adadelta(self.parameters(), lr=self.lr)
-        scheduler = StepLR(optimizer, step_size=1, gamma=self.gamma)
+        optimizer = optim.Adadelta(self.parameters(), lr=self.hparams.lr)
+        scheduler = StepLR(optimizer, step_size=1, gamma=self.hparams.gamma)
         return [optimizer], [scheduler]
 
 class MnistDataModule(LightningDataModule):
 
-    def __init__(
-        self,
-        train_batch_size,
-        test_batch_size,
-        num_workers,
-        pin_memory,
-        shuffle,
-    ):
+    def __init__(self, *args, **kwargs):
         super().__init__()
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
-        self.num_workers = num_workers
-        self.pin_memory = pin_memory
-        self.shuffle = shuffle
+        save_hyperparameters(self)
         self.transforms = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])
 
-        self.num_classes = 10
-
     def train_dataloader(self):
-        train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
-        return DataLoader(train_ds, batch_size=self.train_batch_size, shuffle=self.shuffle, pin_memory=self.pin_memory, num_workers=self.num_workers)
+        train_ds = datasets.MNIST('data', train=True, download=True, transform=self.transforms)
+        return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
     def test_dataloader(self):
-        test_ds = datasets.MNIST('data', train=False, download=False, transform=self.transforms)
-        return DataLoader(test_ds, batch_size=self.test_batch_size, shuffle=self.shuffle, pin_memory=self.pin_memory, num_workers=self.num_workers)
+        test_ds = datasets.MNIST('data', train=False, download=True, transform=self.transforms)
+        return DataLoader(test_ds, batch_size=self.hparams.test_batch_size, shuffle=False, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
 
 def main():
-    t0 = time()
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=1, metavar='N',
+    parser.add_argument('--epochs', type=int, default=14, metavar='N',
                         help='number of epochs to train (default: 14)')
     parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
                         help='learning rate (default: 1.0)')
@@ -129,32 +104,22 @@ def main():
                         help='how many batches to wait before logging training status')
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
-    parser.add_argument('--num-nodes', type=int, default=2,
-                        help='num nodes to be used (default: 2)')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     seed_everything(args.seed)
 
-    dm = MnistDataModule(
-        train_batch_size=args.batch_size,
-        test_batch_size=args.test_batch_size,
-        num_workers=1,
-        pin_memory=use_cuda,
-        shuffle=True
-    )
+    dm = MnistDataModule(train_batch_size=args.batch_size, test_batch_size=args.test_batch_size, num_workers=1, pin_memory=use_cuda, shuffle=True)
 
     net =  Net()
-    model = LiftModel(net, num_classes=dm.num_classes, lr=args.lr, gamma=args.gamma)
+    model = LiftModel(net, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, profiler="pytorch", gpus=torch.cuda.device_count() if use_cuda else 0, accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, accelerator="ddp")
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
     if args.save_model:
         trainer.save_checkpoint("mnist_cnn.pt")
-
-    print(f"TIME SPENT: {time() - t0}")
 
 
 if __name__ == '__main__':
