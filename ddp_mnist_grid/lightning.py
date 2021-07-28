@@ -113,7 +113,7 @@ def main():
     net =  Net()
     model = LiftModel(net, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs)
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
