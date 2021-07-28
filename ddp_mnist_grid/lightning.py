@@ -82,13 +82,12 @@ class MnistDataModule(LightningDataModule):
 
 def main():
     # Training settings
-    parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
+    parser = argparse.ArgumentParser()
+    parser = Trainer.add_argparse_args(parser)
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=14, metavar='N',
-                        help='number of epochs to train (default: 14)')
     parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
                         help='learning rate (default: 1.0)')
     parser.add_argument('--gamma', type=float, default=0.7, metavar='M',
@@ -113,7 +112,7 @@ def main():
     net =  Net()
     model = LiftModel(net, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs)
+    trainer = Trainer.from_argparse_args(args)
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
