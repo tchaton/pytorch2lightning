@@ -8,6 +8,7 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
 from torch.utils.data import DataLoader
+from pytorch_lightning.utilities.parsing import save_hyperparameters
 from pytorch_lightning.profiler.pytorch import PyTorchProfiler, ProfilerActivity
 
 
@@ -39,26 +40,15 @@ class Net(nn.Module):
 
 class LiftModel(LightningModule):
 
-    def __init__(self, model, num_classes: int, lr: float, gamma: float):
+    def __init__(self, model, lr: float, gamma: float):
         super().__init__()
         self.save_hyperparameters()
         self.model = model
-        self.metrics = MetricCollection({
-            "train_acc": Accuracy(),
-            "test_acc": Accuracy()
-        }) 
-        self.lr = lr
-        self.gamma = gamma
 
     def shared_step(self, batch, stage):
         data, target = batch
         output = self.model(data)
         loss = F.nll_loss(output, target, reduction='sum')
-        acc = self.metrics[f"{stage}_acc"](output, target)
-        self.log_dict({
-            f"{stage}_acc": acc,
-            f"{stage}_loss": loss,
-        }, prog_bar=True)
         return loss
 
     def training_step(self, batch, batch_idx):
@@ -68,41 +58,30 @@ class LiftModel(LightningModule):
         self.shared_step(batch, "test")
 
     def configure_optimizers(self):
-        optimizer = optim.Adadelta(self.parameters(), lr=self.lr)
-        scheduler = StepLR(optimizer, step_size=1, gamma=self.gamma)
+        optimizer = optim.Adadelta(self.parameters(), lr=self.hparams.lr)
+        scheduler = StepLR(optimizer, step_size=1, gamma=self.hparams.gamma)
         return [optimizer], [scheduler]
 
 class MnistDataModule(LightningDataModule):
 
-    def __init__(
-        self,
-        train_batch_size,
-        test_batch_size,
-        num_workers,
-        pin_memory,
-        shuffle,
-    ):
+    def __init__(self, *args, **kwargs):
         super().__init__()
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
-        self.num_workers = num_workers
-        self.pin_memory = pin_memory
-        self.shuffle = shuffle
+        save_hyperparameters(self)
         self.transforms = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])
 
-        datasets.MNIST('data', download=True)
-        self.num_classes = 10
+    def prepare_data(self):
+        datasets.MNIST('data', train=True, download=True)
 
     def train_dataloader(self):
         train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
-        return DataLoader(train_ds, batch_size=self.train_batch_size, shuffle=self.shuffle, pin_memory=self.pin_memory, num_workers=self.num_workers)
+        return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
     def test_dataloader(self):
         test_ds = datasets.MNIST('data', train=False, download=False, transform=self.transforms)
-        return DataLoader(test_ds, batch_size=self.test_batch_size, shuffle=self.shuffle, pin_memory=self.pin_memory, num_workers=self.num_workers)
+        return DataLoader(test_ds, batch_size=self.hparams.test_batch_size, shuffle=False, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
 
 def main():
@@ -133,18 +112,12 @@ def main():
 
     seed_everything(args.seed)
 
-    dm = MnistDataModule(
-        train_batch_size=args.batch_size,
-        test_batch_size=args.test_batch_size,
-        num_workers=1,
-        pin_memory=use_cuda,
-        shuffle=True
-    )
+    dm = MnistDataModule(train_batch_size=args.batch_size, test_batch_size=args.test_batch_size, num_workers=1, pin_memory=use_cuda, shuffle=True)
 
     net =  Net()
-    model = LiftModel(net, num_classes=dm.num_classes, lr=args.lr, gamma=args.gamma)
+    model = LiftModel(net, lr=args.lr, gamma=args.gamma)
 
-    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, profiler=PyTorchProfiler(activities=[ProfilerActivity.CPU]), accelerator="ddp")
+    trainer = Trainer(max_epochs=args.epochs, gpus=2 if use_cuda else 0, accelerator="ddp", accumulate_grad_batches=2, profiler=PyTorchProfiler(activities=[ProfilerActivity.CPU]))
     trainer.fit(model, datamodule=dm)
     trainer.test(datamodule=dm)
 
