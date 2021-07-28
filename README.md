@@ -37,7 +37,7 @@ Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/p
 
 ## Training on Grid.ai
 
-[Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of PyTorch Lightning. 
+[Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning). 
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
