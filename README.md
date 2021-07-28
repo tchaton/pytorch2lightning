@@ -3,6 +3,8 @@
 The repository will show you how to:
 * Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 * ExtendPure PyTorch trivially with Lightning best practice features.
+* Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes
+
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
@@ -47,7 +49,7 @@ Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-feature
 pip install lightning-grid --upgrade
 ```
 
-### 2. SEAMLESSLY TRAIN 100s OF MACHINE LEARNING MODELS ON THE CLOUD FROM YOUR LAPTOP
+### 2. SEAMLESSLY TRAIN 100s OF MACHINE LEARNING MODELS ON THE CLOUD FROM YOUR LAPTOP - NO CODE CHANGES
 
 
 ```bash
