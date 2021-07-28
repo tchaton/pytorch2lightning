@@ -39,7 +39,6 @@ class Net(nn.Module):
 
 
 class LiftModel(LightningModule):
-
     def __init__(self, model, lr: float, gamma: float):
         super().__init__()
         self.save_hyperparameters()
@@ -48,7 +47,7 @@ class LiftModel(LightningModule):
     def shared_step(self, batch, stage):
         data, target = batch
         output = self.model(data)
-        loss = F.nll_loss(output, target, reduction='sum')
+        loss = F.nll_loss(output, target, reduction="sum")
         self.log(f"{stage}_loss", loss)
         return loss
 
@@ -65,53 +64,71 @@ class LiftModel(LightningModule):
 
 
 class MnistDataModule(LightningDataModule):
-
     def __init__(self, *args, **kwargs):
         super().__init__()
         save_hyperparameters(self)
-        self.transforms = transforms.Compose([ transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+        self.transforms = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     def prepare_data(self):
-        if not os.path.exists('data'):
-            datasets.MNIST('data', train=True, download=True)
+        if not os.path.exists("data"):
+            datasets.MNIST("data", train=True, download=True)
 
     def train_dataloader(self):
-        train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
-        return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
+        train_ds = datasets.MNIST("data", train=True, download=False, transform=self.transforms)
+        return DataLoader(
+            train_ds,
+            batch_size=self.hparams.train_batch_size,
+            shuffle=self.hparams.shuffle,
+            pin_memory=self.hparams.pin_memory,
+            num_workers=self.hparams.num_workers,
+        )
 
     def test_dataloader(self):
-        test_ds = datasets.MNIST('data', train=False, download=False, transform=self.transforms)
-        return DataLoader(test_ds, batch_size=self.hparams.test_batch_size, shuffle=False, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
+        test_ds = datasets.MNIST("data", train=False, download=False, transform=self.transforms)
+        return DataLoader(
+            test_ds,
+            batch_size=self.hparams.test_batch_size,
+            shuffle=False,
+            pin_memory=self.hparams.pin_memory,
+            num_workers=self.hparams.num_workers,
+        )
 
 
 def main():
     # Training settings
     parser = argparse.ArgumentParser()
     parser = Trainer.add_argparse_args(parser)
-    parser.add_argument('--batch-size', type=int, default=64, metavar='N',
-                        help='input batch size for training (default: 64)')
-    parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
-                        help='input batch size for testing (default: 1000)')
-    parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
-                        help='learning rate (default: 1.0)')
-    parser.add_argument('--gamma', type=float, default=0.7, metavar='M',
-                        help='Learning rate step gamma (default: 0.7)')
-    parser.add_argument('--no-cuda', action='store_true', default=False,
-                        help='disables CUDA training')
-    parser.add_argument('--dry-run', action='store_true', default=False,
-                        help='quickly check a single pass')
-    parser.add_argument('--seed', type=int, default=1, metavar='S',
-                        help='random seed (default: 1)')
-    parser.add_argument('--log-interval', type=int, default=10, metavar='N',
-                        help='how many batches to wait before logging training status')
-    parser.add_argument('--save-model', action='store_true', default=False,
-                        help='For Saving the current Model')
+    parser.add_argument(
+        "--batch-size", type=int, default=64, metavar="N", help="input batch size for training (default: 64)"
+    )
+    parser.add_argument(
+        "--test-batch-size", type=int, default=1000, metavar="N", help="input batch size for testing (default: 1000)"
+    )
+    parser.add_argument("--lr", type=float, default=1.0, metavar="LR", help="learning rate (default: 1.0)")
+    parser.add_argument("--gamma", type=float, default=0.7, metavar="M", help="Learning rate step gamma (default: 0.7)")
+    parser.add_argument("--no-cuda", action="store_true", default=False, help="disables CUDA training")
+    parser.add_argument("--dry-run", action="store_true", default=False, help="quickly check a single pass")
+    parser.add_argument("--seed", type=int, default=1, metavar="S", help="random seed (default: 1)")
+    parser.add_argument(
+        "--log-interval",
+        type=int,
+        default=10,
+        metavar="N",
+        help="how many batches to wait before logging training status",
+    )
+    parser.add_argument("--save-model", action="store_true", default=False, help="For Saving the current Model")
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     seed_everything(args.seed)
 
-    dm = MnistDataModule(train_batch_size=args.batch_size, test_batch_size=args.test_batch_size, num_workers=1, pin_memory=use_cuda, shuffle=True)
+    dm = MnistDataModule(
+        train_batch_size=args.batch_size,
+        test_batch_size=args.test_batch_size,
+        num_workers=1,
+        pin_memory=use_cuda,
+        shuffle=True,
+    )
 
     net = Net()
     model = LiftModel(net, lr=args.lr, gamma=args.gamma)
@@ -124,5 +141,5 @@ def main():
         trainer.save_checkpoint("mnist_cnn.pt")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

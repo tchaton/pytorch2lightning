@@ -51,7 +51,7 @@ class LiftModel(LightningModule):
     def shared_step(self, batch, stage):
         data, target = batch
         output = self.model(data)
-        loss = F.nll_loss(output, target, reduction='sum')
+        loss = F.nll_loss(output, target, reduction="sum")
         return loss
 
     def training_step(self, batch, batch_idx):
@@ -76,29 +76,52 @@ class MnistDataModule(LightningDataModule):
         shuffle:
     """
 
-    def __init__(self, train_batch_size: int = 64, test_batch_size: int = 1000, num_workers: int = 1, pin_memory: bool = True, shuffle: bool = True):
+    def __init__(
+        self,
+        train_batch_size: int = 64,
+        test_batch_size: int = 1000,
+        num_workers: int = 1,
+        pin_memory: bool = True,
+        shuffle: bool = True,
+    ):
         super().__init__()
         save_hyperparameters(self)
         self.transforms = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     def prepare_data(self):
-        datasets.MNIST('data', train=True, download=True)
+        datasets.MNIST("data", train=True, download=True)
 
     def train_dataloader(self):
-        train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
-        return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
+        train_ds = datasets.MNIST("data", train=True, download=False, transform=self.transforms)
+        return DataLoader(
+            train_ds,
+            batch_size=self.hparams.train_batch_size,
+            shuffle=self.hparams.shuffle,
+            pin_memory=self.hparams.pin_memory,
+            num_workers=self.hparams.num_workers,
+        )
 
     def test_dataloader(self):
-        test_ds = datasets.MNIST('data', train=False, download=False, transform=self.transforms)
-        return DataLoader(test_ds, batch_size=self.hparams.test_batch_size, shuffle=False, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
+        test_ds = datasets.MNIST("data", train=False, download=False, transform=self.transforms)
+        return DataLoader(
+            test_ds,
+            batch_size=self.hparams.test_batch_size,
+            shuffle=False,
+            pin_memory=self.hparams.pin_memory,
+            num_workers=self.hparams.num_workers,
+        )
 
 
 def main():
     n_gpus = 2 if torch.cuda.device_count() >= 2 else 0
-    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=n_gpus, accelerator="ddp_spawn"))
+    cli = LightningCLI(
+        model_class=LiftModel,
+        datamodule_class=MnistDataModule,
+        trainer_defaults=dict(max_epochs=14, gpus=n_gpus, accelerator="ddp_spawn"),
+    )
     cli.trainer.test(datamodule=cli.datamodule)
     cli.trainer.save_checkpoint("mnist_cnn.pt")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
