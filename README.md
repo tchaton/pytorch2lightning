@@ -18,7 +18,7 @@ The repository will show you the followings:
 * [PyTorch](ddp_mnist_spawn/lightning.py) | 197 lines
 * [Lightning](ddp_mnist_spawn/lightning.py) | 126 lines: -71 lines
 
-## Add DDP Accumulated gradients Support
+## Add Accumulated gradients Support
 * [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +199 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
 
