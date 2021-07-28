@@ -48,6 +48,7 @@ class LiftModel(LightningModule):
         data, target = batch
         output = self.model(data)
         loss = F.nll_loss(output, target, reduction='sum')
+        self.log(f"{stage}_loss", loss)
         return loss
 
     def training_step(self, batch, batch_idx):
