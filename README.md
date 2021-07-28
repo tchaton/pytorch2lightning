@@ -41,7 +41,7 @@ Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/p
 
 ```bash
 pip install lightning-grid --upgrade
-grid run --instance_type p3.8xlarge ddp_mnist_grid/lightning.py --gpus 4 --accelerator ddp
+grid run --instance_type p3.8xlarge ddp_mnist_grid/lightning.py --max_epochs 1  --gpus 4 --accelerator ddp
 ```
 
 [Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket: Training on 2 nodes with 4 GPUS using DeepSpeed Zero-3 :fire:
@@ -49,7 +49,7 @@ grid run --instance_type p3.8xlarge ddp_mnist_grid/lightning.py --gpus 4 --accel
 
 ```bash
 pip install lightning-grid --upgrade
-grid run --instance_type g4dn.12xlarge --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 1 --gpus 4 --num_nodes 2 --precision 16 --deepspeed_stage_3
+grid run --instance_type g4dn.12xlarge --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 1 --gpus 4 --num_nodes 2 --precision 16 --plugins deepspeed_stage_3
 ```
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
