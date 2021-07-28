@@ -116,6 +116,8 @@ def main(rank, world_size, ddp_spawn):
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
     parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
+    parser.add_argument('--seed', type=int, default=42, metavar='N',
+                        help='the current seed for this experiment')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -142,7 +144,7 @@ def main(rank, world_size, ddp_spawn):
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
     ])
-    dataset1 = datasets.MNIST('../data', train=True, download=True, transform=transform)
+    dataset1 = datasets.MNIST('../data', train=True, download=False, transform=transform)
     dataset2 = datasets.MNIST('../data', train=False, transform=transform)
 
     # Create distributed Sampler

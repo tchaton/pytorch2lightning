@@ -114,6 +114,8 @@ def main():
                         help='quickly check a single pass')
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
+    parser.add_argument('--seed', type=int, default=42, metavar='N',
+                        help='the current seed for this experiment')
     parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
     args = parser.parse_args()
     use_cuda = torch.cuda.is_available()
