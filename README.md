@@ -26,6 +26,10 @@ The repository shows :
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +226 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
+## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
+* PyTorch | + large number of lines 
+* Lightning | Still ~ 126 lines
+
 ## Training on Grid.ai
 
 [Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of PyTorch Lightning. 
