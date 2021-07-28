@@ -69,7 +69,7 @@ Add `--use_spot` to use interruptible machines.
 
 
 ```bash
-grid run --instance_type 4_M60_8gb --gpus 8 --datastore_name mnist --datastore_mount_dir data  ddp_mnist_grid/lightning.py  --trainer.max_epochs 2 --trainer.num_nodes 2 --trainer.gpus 4 --trainer.accelerator ddp
+grid run --instance_type 4_M60_8gb --gpus 8 --datastore_name mnist --datastore_mount_dir data  ddp_mnist_grid/lightning.py  --trainer.max_epochs 2 --trainer.num_nodes 2 --trainer.gpus 4 --trainer.accelerator ddp_sharded
 ```
 
 Train [Andrej Karpathy](https://karpathy.ai) [minGPT](https://github.com/karpathy/minGPT) converted to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) by [@williamFalcon](https://github.com/williamFalcon) and bencharmked with DeepSpeed by [@SeanNaren](https://github.com/SeanNaren)
