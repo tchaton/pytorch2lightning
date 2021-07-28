@@ -31,7 +31,7 @@ The repository will show you how to:
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
 * [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | requires a huge number of addtional lines. You `definitely` do not  want to do that :tired_face: 
-* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | Still ~ 126 lines. Let's keep it simple. :rocket:
+* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | Still ~ 106 lines. Let's keep it simple. :rocket:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
 PyTorch Lightning 1.4 is out ! Here is our [CHANGELOG](https://github.com/PyTorchLightning/pytorch-lightning/releases/tag/1.4.0).
