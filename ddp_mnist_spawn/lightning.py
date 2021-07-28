@@ -71,12 +71,15 @@ class MnistDataModule(LightningDataModule):
             transforms.Normalize((0.1307,), (0.3081,))
         ])
 
+    def prepare_data(self):
+        datasets.MNIST('data', train=True, download=True)
+
     def train_dataloader(self):
-        train_ds = datasets.MNIST('data', train=True, download=True, transform=self.transforms)
+        train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
         return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
     def test_dataloader(self):
-        test_ds = datasets.MNIST('data', train=False, download=True, transform=self.transforms)
+        test_ds = datasets.MNIST('data', train=False, download=False, transform=self.transforms)
         return DataLoader(test_ds, batch_size=self.hparams.test_batch_size, shuffle=False, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
 
 
