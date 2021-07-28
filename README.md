@@ -23,12 +23,12 @@ The repository shows :
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
 
 ## Add Profiling Support
-* [PyTorch](ddp_profiler_mnist/pytorch.py) | +226 lines 
+* [PyTorch](https://pytorch.org/) | +226 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
-* PyTorch | :sob: + large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
-* Lightning | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
+* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
+* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
 
