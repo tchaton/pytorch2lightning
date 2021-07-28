@@ -71,6 +71,10 @@ class MnistDataModule(LightningDataModule):
             transforms.Normalize((0.1307,), (0.3081,))
         ])
 
+    def prepare_data(self):
+        if not os.path.exists('data'):
+            datasets.MNIST('data', train=True, download=True)
+
     def train_dataloader(self):
         train_ds = datasets.MNIST('data', train=True, download=False, transform=self.transforms)
         return DataLoader(train_ds, batch_size=self.hparams.train_batch_size, shuffle=self.hparams.shuffle, pin_memory=self.hparams.pin_memory, num_workers=self.hparams.num_workers)
