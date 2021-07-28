@@ -18,7 +18,7 @@
 
 # DDP MNIST + Grid.ai
 
-Grid.ai is the MLOps Platform from the creators of PyTorch Lightning. 
+[Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of PyTorch Lightning. 
 
 ```bash
 pip install lightning-grid
