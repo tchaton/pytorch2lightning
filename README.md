@@ -35,7 +35,7 @@ PyTorch Lightning 1.4 is out ! Here is our [CHANGELOG](https://github.com/PyTorc
 
 Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 
-## Training on Grid.ai
+# Training on [Grid.ai](https://www.grid.ai/)
 
 [Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning). 
 
