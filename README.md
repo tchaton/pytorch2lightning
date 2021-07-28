@@ -18,7 +18,7 @@ The repository will show you the followings:
 * [PyTorch](ddp_mnist_spawn/lightning.py) | 197 lines
 * [Lightning](ddp_mnist_spawn/lightning.py) | 126 lines: -71 lines
 
-## Add DDP Accumulated gradients Support
+## Add Accumulated gradients Support
 * [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +199 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
 
@@ -56,6 +56,7 @@ grid run --instance_type 8_V100_32gb --gpus 16 --use_spot lightning.py # automa
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
+Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
 
 ### Credits
 
