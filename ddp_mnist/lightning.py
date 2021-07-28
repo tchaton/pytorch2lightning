@@ -1,4 +1,3 @@
-from __future__ import print_function
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -44,12 +43,10 @@ class LiftModel(LightningModule):
         gamma: Learning rate step gamma
     """
 
-    def __init__(self, model=None, lr: float = 1.0, gamma: float = 0.7):
+    def __init__(self, model: nn.Module=None, lr: float = 1.0, gamma: float = 0.7):
         super().__init__()
-        if not model:
-            model = Net()
         self.save_hyperparameters()
-        self.model = model
+        self.model = model or Net()
 
     def shared_step(self, batch, stage):
         data, target = batch
@@ -97,7 +94,7 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
-    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=2, accelerator="ddp"))
+    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=2 if torch.cuda.is_available() else 0, accelerator="ddp"))
     cli.trainer.test(datamodule=cli.datamodule)
     cli.trainer.save_checkpoint("mnist_cnn.pt")
 
