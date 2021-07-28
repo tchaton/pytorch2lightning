@@ -2,14 +2,13 @@
 
 The repository will show you how to:
 * Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
-* ExtendPure PyTorch trivially with Lightning best practice features.
+* Extend Pure PyTorch trivially with Lightning best practice features.
 * Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes.
-* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks.
+* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks. 
 
+## Bare MNIST Classifier
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
- 
 
-## Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py) | 127 lines 
 * [Lightning](bare_mnist/lightning.py) | 101 lines 
 
@@ -21,7 +20,7 @@ The repository will show you how to:
 * [PyTorch](ddp_mnist_spawn/lightning.py) | 196 lines
 * [Lightning](ddp_mnist_spawn/lightning.py) | 105 lines: -91 lines
 
-## Add Accumulated gradients Support
+## Add Accumulated Gradients Support
 * [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +198 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 106 lines: -92 lines
 
