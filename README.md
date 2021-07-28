@@ -29,8 +29,8 @@ The repository will show you how to:
 * [Lightning](ddp_mnist_accumulate_gradients_profiler/lightning.py) | 106 lines: -120 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
-* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + requires a huge number of addtional lines of code to implement :scream: You `definitely` do not  want to do that :tired_face: 
-* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
+* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | requires a huge number of addtional lines. You `definitely` do not  want to do that :tired_face: 
+* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
 PyTorch Lightning 1.4 is out ! Here is our [CHANGELOG](https://github.com/PyTorchLightning/pytorch-lightning/releases/tag/1.4.0).
