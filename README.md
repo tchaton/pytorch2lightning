@@ -124,7 +124,7 @@ print(predictions)
 trainer.save_checkpoint("video_classification.pt")
 ```
 
-### Credits
+## Credits
 
 Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
 
