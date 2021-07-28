@@ -25,8 +25,8 @@ The repository will show you how to:
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
 
 ## Add Profiling Support
-* [PyTorch](https://pytorch.org/) | +226 lines 
-* [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
+* [PyTorch](ddp_mnist_accumulate_gradients_profiler/pytorch.py) | +226 lines 
+* [Lightning](ddp_mnist_accumulate_gradients_profiler/lightning.py) | 126 lines: -100 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
 * [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + requires a huge number of addtional lines of code to implement :scream: You `definitely` do not  want to do that :tired_face: 
