@@ -114,8 +114,6 @@ def main(rank, world_size, ddp_spawn):
                         help='random seed (default: 1)')
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
-    parser.add_argument('--save-model', action='store_true', default=False,
-                        help='For Saving the current Model')
     parser.add_argument('--use_ddp', type=int, default=1, metavar='N', help='Whether to use DDP')
     parser.add_argument('--accumulate_grad_batches', type=int, default=2, metavar='N', help='How to perform gradient accumulation')
     args = parser.parse_args()
@@ -174,7 +172,7 @@ def main(rank, world_size, ddp_spawn):
         scheduler.step()
 
     ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
-    if args.save_model and (not args.use_ddp or rank == 0):
+    if not args.use_ddp or rank == 0:
         torch.save(model.state_dict(), "mnist_cnn.pt")
     ###### Save only on rank 0 to avoid rank 1 to overrides the checkpoint
 
