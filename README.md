@@ -54,6 +54,14 @@ grid run --instance_type g4dn.12xlarge --gpus 8 ddp_mnist_grid/lightning.py --ma
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
+Train [Andrej Karpathy](https://karpathy.ai) [minGPT](https://github.com/karpathy/minGPT) converted to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) by [williamFalcon]https://github.com/williamFalcon) and bencharmked with DeepSpeed by [SeanNaren](https://github.com/SeanNaren)
+
+```
+git clone https://github.com/SeanNaren/minGPT.git
+git checkout benchmark
+grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --n_layer 6 --n_head 16 --n_embd 2048 --gpus 4 --num_nodes 2 --precision 16 --batch_size 32 --plugins deepspeed_stage_3
+```
+
 Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
 
 ### Credits
