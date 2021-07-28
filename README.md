@@ -7,6 +7,7 @@ The repository will show you how to:
 * Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
+ 
 
 ## Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py) | 127 lines 
