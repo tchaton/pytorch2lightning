@@ -44,7 +44,7 @@ cd ddp_mnist_grid/
 grid run --instance_type p3.8xlarge --use_spot lightning.py
 ```
 
-Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
+Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
 
 ### Credits
