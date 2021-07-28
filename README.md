@@ -1,8 +1,8 @@
-# Pytorch 2 Lightning Examples
+# Converting PyTorch 2 Lightning Examples
 
-The repository will show you the followings:
-* How to convert a pure `PyTorch Convolutional Neural Network Classifier` trained on Mnist to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
-* How to add some features to Pure PyTorch and how Lightning makes it trivial.
+The repository will show you how to:
+* Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
+* ExtendPure PyTorch trivially with Lightning best practice features.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
@@ -27,7 +27,7 @@ The repository will show you the followings:
 * [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
-* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + very large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
+* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + requires a huge number of addtional lines of code to implement :scream: You `definitely` do not  want to do that :tired_face: 
 * [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
@@ -37,7 +37,7 @@ Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/p
 
 # Training on [Grid.ai](https://www.grid.ai/)
 
-[Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning). 
+[Grid.ai](https://www.grid.ai/) is a ML Platform from the creators of [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) that enables you to train Machine Learning code without worrying about infrastructure. 
 
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
@@ -62,9 +62,9 @@ grid run --instance_type 4_M60_8gb --datastore_name mnist --datastore_mount_dir 
 
 ```
 
-Add `--use_spot` to use preemptive machines.
+Add `--use_spot` to use interruptible machines.
 
-[Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket: Training on 2 nodes with 4 GPUS using [DDP Sharded](https://medium.com/pytorch/pytorch-lightning-1-1-model-parallelism-training-and-more-logging-options-7d1e47db7b0b) :fire:
+[Grid.ai](https://www.grid.ai/) makes scaling multi node training easy :rocket: Train on 2+ nodes with 4 GPUS using [DDP Sharded](https://medium.com/pytorch/pytorch-lightning-1-1-model-parallelism-training-and-more-logging-options-7d1e47db7b0b) :fire:
 
 
 ```bash
