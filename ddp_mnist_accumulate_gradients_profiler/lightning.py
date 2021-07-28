@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from pytorch_lightning.utilities.cli import LightningCLI
+LightningCLI.fit = lambda x: None  # temporary hack
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import LightningModule, LightningDataModule
@@ -97,8 +98,10 @@ class MnistDataModule(LightningDataModule):
 def main():
     n_gpus = 2 if torch.cuda.device_count() >= 2 else 0
     cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=n_gpus, accelerator="ddp", accumulate_grad_batches=2, profiler=PyTorchProfiler(activities=[ProfilerActivity.CPU])), save_config_overwrite=True, save_config_callback=None)
-    cli.trainer.test(datamodule=cli.datamodule)
-    cli.trainer.save_checkpoint("mnist_cnn.pt")
+    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    cli.trainer.test(cli.model, datamodule=cli.datamodule)
+    if cli.trainer.is_global_zero:
+        cli.trainer.save_checkpoint("mnist_cnn.pt")
 
 
 if __name__ == '__main__':

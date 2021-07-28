@@ -4,18 +4,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from pytorch_lightning.utilities.cli import LightningCLI
+LightningCLI.fit = lambda x: None  # temporary hack
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import LightningModule, LightningDataModule
 from torch.utils.data import DataLoader
 from pytorch_lightning.utilities.parsing import save_hyperparameters
-
-
-# temporary hack
-class LightningCLI(LightningCLI):
-
-    def fit(self) -> None:
-        pass
 
 
 class Net(nn.Module):
