@@ -97,7 +97,7 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
-    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=2 if torch.cuda.is_available() else 0, accelerator="ddp", accumulate_grad_batches=2), save_config_overwrite=True, save_config_callback=None)
+    cli = LightningCLI(LiftModel, MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=2 if torch.cuda.is_available() else 0, accelerator="ddp", accumulate_grad_batches=2), save_config_overwrite=True, save_config_callback=None)
     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
     cli.trainer.test(cli.model, datamodule=cli.datamodule)
     if cli.trainer.is_global_zero:
