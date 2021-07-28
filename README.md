@@ -2,7 +2,7 @@
 
 The repository shows how to convert a pure PyTorch classifier net on mnist to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) and how Lightning makes it trivial to use more features.
 
-![Minst Dataset](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2Fsyncedreview%2Fmnist-reborn-restored-and-expanded-additional-50k-training-samples-70c6f8a9e9a9&psig=AOvVaw14Xj80gG_pcBtYbwq3jR9S&ust=1627547916614000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCICG-M6uhfICFQAAAAAdAAAAABAD)
+![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
 # Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py)
