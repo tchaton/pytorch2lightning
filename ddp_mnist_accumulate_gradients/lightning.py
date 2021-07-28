@@ -7,7 +7,6 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import Trainer, LightningModule, seed_everything, LightningDataModule
-from torchmetrics import Accuracy, MetricCollection
 from torch.utils.data import DataLoader
 
 
