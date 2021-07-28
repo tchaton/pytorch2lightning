@@ -54,6 +54,14 @@ pip install lightning-grid --upgrade
 grid run --instance_type 4_M60_8gb ddp_mnist_grid/lightning.py --max_epochs 2 --gpus 4 --accelerator ddp
 ```
 
+With [Grid DataStores](https://docs.grid.ai/products/global-cli-configs/cli-api/grid-datastores), low-latency, highly-scalable auto-versioned dataset.
+
+```bash
+grid datastore create --name mnist --source data
+grid run --instance_type 4_M60_8gb --datastore_name mnist --datastore_mount_dir data ddp_mnist_grid/lightning.py --max_epochs 2 --gpus 4 --accelerator ddp
+
+```
+
 [Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket: Training on 2 nodes with 4 GPUS using DeepSpeed Zero-3 :fire:
 
 
