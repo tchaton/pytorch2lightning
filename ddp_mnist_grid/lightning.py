@@ -10,6 +10,7 @@ from torch.optim.lr_scheduler import StepLR
 from pytorch_lightning import LightningModule, LightningDataModule
 from torch.utils.data import DataLoader
 from pytorch_lightning.utilities.parsing import save_hyperparameters
+from torchmetrics import Accuracy, MetricCollection
 
 
 class Net(nn.Module):
@@ -49,11 +50,14 @@ class LiftModel(LightningModule):
         super().__init__()
         self.save_hyperparameters()
         self.model = model or Net()
+        self.accuracy_metrics = MetricCollection({"train_acc": Accuracy(), "test_acc": Accuracy()})
 
     def shared_step(self, batch, stage):
         data, target = batch
         output = self.model(data)
         loss = F.nll_loss(output, target, reduction='sum')
+        self.log(f"{stage}_loss", loss, prog_bar=True, logger=True)
+        self.log(f"{stage}_acc", self.accuracy_metrics[f"{stage}_acc"](output, target), prog_bar=True, logger=True)
         return loss
 
     def training_step(self, batch, batch_idx):
