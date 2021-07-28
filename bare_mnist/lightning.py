@@ -10,6 +10,13 @@ from torch.utils.data import DataLoader
 from pytorch_lightning.utilities.parsing import save_hyperparameters
 
 
+# temporary hack
+class LightningCLI(LightningCLI):
+
+    def fit(self) -> None:
+        pass
+
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -91,7 +98,8 @@ class MnistDataModule(LightningDataModule):
 
 
 def main():
-    cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=int(torch.cuda.is_available())), save_config_overwrite=True, save_config_callback=None)
+    cli = LightningCLI(LiftModel, MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=int(torch.cuda.is_available())), save_config_overwrite=True, save_config_callback=None)
+    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
     cli.trainer.test(datamodule=cli.datamodule)
     cli.trainer.save_checkpoint("mnist_cnn.pt")
 
