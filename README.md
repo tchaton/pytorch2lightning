@@ -1,6 +1,8 @@
 # Pytorch 2 Lightning Examples
 
-The repository shows how to convert a pure PyTorch classifier net on mnist to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) and how Lightning makes it trivial to use more features.
+The repository shows :
+* how to convert a pure PyTorch Convolutional Neural Network Classifier trained on Mnist to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) 
+* how Lightning makes it trivial to use more features.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
