@@ -74,7 +74,7 @@ Train [Andrej Karpathy](https://karpathy.ai) [minGPT](https://github.com/karpath
 ```
 git clone https://github.com/SeanNaren/minGPT.git
 git checkout benchmark
-grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --fast_dev_run=1 --n_layer 6 --n_head 16 --n_embd 2048 --gpus 4 --num_nodes 2 --precision 16 --batch_size 32 --plugins deepspeed_stage_3
+grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --n_layer 6 --n_head 16 --n_embd 2048 --gpus 4 --num_nodes 2 --precision 16 --batch_size 32 --plugins deepspeed_stage_3
 ```
 
 Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
