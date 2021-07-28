@@ -62,6 +62,8 @@ grid run --instance_type 4_M60_8gb --datastore_name mnist --datastore_mount_dir 
 
 ```
 
+Add `--use_spot` to use preemptive machines.
+
 [Grid.ai](https://www.grid.ai/) makes multi nodes training at scale easy :rocket: Training on 2 nodes with 4 GPUS using DDP Sharded :fire:
 
 
