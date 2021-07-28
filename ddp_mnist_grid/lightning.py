@@ -98,8 +98,9 @@ class MnistDataModule(LightningDataModule):
 def main():
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 0
     cli = LightningCLI(model_class=LiftModel, datamodule_class=MnistDataModule, trainer_defaults=dict(max_epochs=14, gpus=n_gpus, accelerator="ddp"), save_config_overwrite=True, save_config_callback=None)
-    cli.trainer.test(datamodule=cli.datamodule)
-    cli.trainer.save_checkpoint("mnist_cnn.pt")
+    cli.trainer.test(cli.model, datamodule=cli.datamodule)
+    if cli.trainer.is_global_zero:
+        cli.trainer.save_checkpoint("mnist_cnn.pt")
 
 
 if __name__ == '__main__':
