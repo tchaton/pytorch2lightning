@@ -45,6 +45,14 @@ cd ddp_mnist_grid/
 grid run --instance_type p3.8xlarge --use_spot lightning.py
 ```
 
+Grid.ai makes multi nodes easy :rocket:
+
+```bash
+pip install lightning-grid
+cd ddp_mnist_grid/
+grid run --instance_type p3.8xlarge --gpus 2 --use_spot lightning.py
+```
+
 Learn more with [Grid.ai Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 
 
