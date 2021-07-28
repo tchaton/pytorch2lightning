@@ -4,29 +4,29 @@ The repository will show you how to:
 * Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 * ExtendPure PyTorch trivially with Lightning best practice features.
 * Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes
-* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and 15+ production ready tasks.
+* Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
 ## Bare MNIST
-* [PyTorch](bare_mnist/pytorch.py) | 137 lines 
-* [Lightning](bare_mnist/lightning.py) | 126 lines 
+* [PyTorch](bare_mnist/pytorch.py) | 127 lines 
+* [Lightning](bare_mnist/lightning.py) | 101 lines 
 
 ## Add DDP Support
-* [PyTorch](ddp_mnist/pytorch.py) | 190 lines
-* [Lightning](ddp_mnist/lightning.py) | 126 lines: -64 lines
+* [PyTorch](ddp_mnist/pytorch.py) | 184 lines
+* [Lightning](ddp_mnist/lightning.py) | 102 lines: -82 lines
 
 ## Add DDP Spawn Support
-* [PyTorch](ddp_mnist_spawn/lightning.py) | 197 lines
-* [Lightning](ddp_mnist_spawn/lightning.py) | 126 lines: -71 lines
+* [PyTorch](ddp_mnist_spawn/lightning.py) | 196 lines
+* [Lightning](ddp_mnist_spawn/lightning.py) | 105 lines: -91 lines
 
 ## Add Accumulated gradients Support
-* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +199 lines 
-* [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
+* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +198 lines 
+* [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 106 lines: -92 lines
 
 ## Add Profiling Support
-* [PyTorch](ddp_mnist_accumulate_gradients_profiler/pytorch.py) | +226 lines 
-* [Lightning](ddp_mnist_accumulate_gradients_profiler/lightning.py) | 126 lines: -100 lines
+* [PyTorch](https://pytorch.org/) | +226 lines 
+* [Lightning](ddp_profiler_mnist/lightning.py) | 106 lines: -120 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
 * [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + requires a huge number of addtional lines of code to implement :scream: You `definitely` do not  want to do that :tired_face: 

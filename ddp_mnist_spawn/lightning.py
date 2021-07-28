@@ -79,10 +79,7 @@ class MnistDataModule(LightningDataModule):
     def __init__(self, train_batch_size: int = 64, test_batch_size: int = 1000, num_workers: int = 1, pin_memory: bool = True, shuffle: bool = True):
         super().__init__()
         save_hyperparameters(self)
-        self.transforms = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
-        ])
+        self.transforms = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
     def prepare_data(self):
         datasets.MNIST('data', train=True, download=True)
