@@ -81,7 +81,7 @@ grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --n_layer 6 --n_hea
 
 Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
 
-Train a Lightning Flash [Video Classifier](https://github.com/PyTorchLightning/lightning-flash/blob/master/flash_examples/video_classification.py). Check out the [reproducible run](https://platform.grid.ai/#/runs?script=https://github.com/aribornstein/KineticsDemo/blob/188f1948725506914b67d3814073a7bec152ac0a/train.py&cloud=grid&instance=g4dn.xlarge&accelerators=1&disk_size=200&framework=lightning&script_args=train.py --gpus 1 --max_epochs 3). 
+Train a Lightning Flash [Video Classifier]("https://github.com/PyTorchLightning/lightning-flash/blob/master/flash_examples/video_classification.py). Check out the [reproducible run](https://platform.grid.ai/#/runs?script=https://github.com/aribornstein/KineticsDemo/blob/188f1948725506914b67d3814073a7bec152ac0a/train.py&cloud=grid&instance=g4dn.xlarge&accelerators=1&disk_size=200&framework=lightning&script_args=train.py --gpus 1 --max_epochs 3"). 
 
 ```py
 import os
