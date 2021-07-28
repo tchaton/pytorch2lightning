@@ -17,7 +17,7 @@ The repository will show you how to:
 * [Lightning](ddp_mnist/lightning.py) | 102 lines: -82 lines
 
 ## Add DDP Spawn Support
-* [PyTorch](ddp_mnist_spawn/lightning.py) | 196 lines
+* [PyTorch](ddp_mnist_spawn/pytorch.py) | 196 lines
 * [Lightning](ddp_mnist_spawn/lightning.py) | 105 lines: -91 lines
 
 ## Add Accumulated Gradients Support
