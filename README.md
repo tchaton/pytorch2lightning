@@ -6,27 +6,27 @@ The repository shows :
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
-# Bare MNIST
+## Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py) | 137 lines 
 * [Lightning](bare_mnist/lightning.py) | 126 lines 
 
-# Add DDP Support
+## Add DDP Support
 * [PyTorch](ddp_mnist/pytorch.py) | 190 lines
 * [Lightning](ddp_mnist/lightning.py) | 126 lines: -64 lines
 
-# Add DDP Spawn Support
+## Add DDP Spawn Support
 * [PyTorch](ddp_mnist_spawn/lightning.py) | 197 lines
 * [Lightning](ddp_mnist_spawn/lightning.py) | 126 lines: -71 lines
 
-# Add DDP Accumulated Grad Batches Support
+## Add DDP Accumulated gradients Support
 * [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +199 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | 126 lines: -73 lines
 
-# Add Profiling Support
+## Add Profiling Support
 * [PyTorch](ddp_profiler_mnist/pytorch.py) | +226 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
-# DDP MNIST + Grid.ai
+## Training on Grid.ai
 
 [Grid.ai](https://www.grid.ai/) is the MLOps Platform from the creators of PyTorch Lightning. 
 
