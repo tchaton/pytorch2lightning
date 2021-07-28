@@ -27,7 +27,7 @@ The repository will show you the followings:
 * [Lightning](ddp_profiler_mnist/lightning.py) | 126 lines: -100 lines
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
-* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
+* [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | :sob: + very large number of lines :scream: You `definitely` don't  want to do that :tired_face: 
 * [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | :fire: Still ~ 126 lines :rocket: Let's keep it simple. :heart_eyes:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
