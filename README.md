@@ -132,5 +132,5 @@ Credit to Andrej Karpathy for providing an implementation of minGPT.
 Kill ddp processes
 
 ```bash
-sudo kill -9 $(ps -aef | grep -i '{REPLACE_ME_BY_SCRIPT_NAME}' | grep -v 'grep' | awk '{ print $2 }')
+sudo kill -9 $(ps -aef | grep -i 'ddp' | grep -v 'grep' | awk '{ print $2 }')
 ```
