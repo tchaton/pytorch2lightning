@@ -58,7 +58,7 @@ grid run --instance_type 4_M60_8gb ddp_mnist_grid/lightning.py --max_epochs 2 --
 
 
 ```bash
-grid run --instance_type 4_M60_8gb --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 2 --num_nodes 2 --gpus 4 --precision 16 --deepspeed_stage_3
+grid run --instance_type 4_M60_8gb --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 2 --num_nodes 2 --gpus 4 --precision 16 --plugins deepspeed_stage_3
 ```
 
 Train [Andrej Karpathy](https://karpathy.ai) [minGPT](https://github.com/karpathy/minGPT) converted to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) by [@williamFalcon](https://github.com/williamFalcon) and bencharmked with DeepSpeed by [@SeanNaren](https://github.com/SeanNaren)
