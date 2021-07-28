@@ -1,5 +1,7 @@
 # Pytorch 2 Lightning Examples
 
+Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
+
 # Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py)
 * [Lightning](bare_mnist/lightning.py)
