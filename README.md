@@ -67,4 +67,5 @@ Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devb
 ### Credits
 
 Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
+
 Credit to Andrej Karpathy for providing an implementation of minGPT.
