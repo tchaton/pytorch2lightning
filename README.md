@@ -3,10 +3,11 @@
 The repository will show you how to:
 * Convert a pure `PyTorch Convolutional Neural Network Classifier` trained on MNIST to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
 * ExtendPure PyTorch trivially with Lightning best practice features.
-* Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes
+* Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes.
 * Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks.
 
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
+ 
 
 ## Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py) | 127 lines 
@@ -30,9 +31,10 @@ The repository will show you how to:
 
 ## Add DeepSpeed, FSDP, Multiple Loggers, Mutliple Profilers, TorchScript, Loop Customization, Fault Tolerant Training, etc ....
 * [PyTorch](https://github.com/PyTorchLightning/pytorch-lightning) | requires a huge number of addtional lines. You `definitely` do not  want to do that :tired_face: 
-* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | Still ~ 126 lines. Let's keep it simple. :rocket:
+* [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) | Still ~ 106 lines. Let's keep it simple. :rocket:
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/).
+
 PyTorch Lightning 1.4 is out ! Here is our [CHANGELOG](https://github.com/PyTorchLightning/pytorch-lightning/releases/tag/1.4.0).
 
 Don't forget to :star: [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning).
@@ -82,6 +84,10 @@ grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --n_layer 6 --n_hea
 
 Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
 
+# [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash).
+
+[Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) is collection of tasks for fast prototyping, baselining, finetuning and solving problems with deep learning built on top of PyTorch Lightning.
+
 Train a [PyTorchVideo Classifier](https://github.com/PyTorchLightning/lightning-flash/blob/master/flash_examples/video_classification.py) with [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash). Check out [Grid.ai](https://www.grid.ai/) reproducible button: 
 [![Grid](https://img.shields.io/badge/rid_AI-run-78FF96.svg?labelColor=black&logo=data:image/svg%2bxml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMTR2MjBhMTQgMTQgMCAwMDE0IDE0aDlWMzYuOEgxMi42VjExaDIyLjV2N2gxMS4yVjE0QTE0IDE0IDAgMDAzMi40IDBIMTVBMTQgMTQgMCAwMDEgMTR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1LjIgNDhoMTEuMlYyNS41SDIzLjl2MTEuM2gxMS4zVjQ4eiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==)](https://platform.grid.ai/#/runs?script=https://github.com/aribornstein/KineticsDemo/blob/188f1948725506914b67d3814073a7bec152ac0a/train.py&cloud=grid&instance=g4dn.xlarge&accelerators=1&disk_size=200&framework=lightning&script_args=train.py%20--gpus%201%20--max_epochs%203)
 
@@ -120,14 +126,14 @@ print(predictions)
 trainer.save_checkpoint("video_classification.pt")
 ```
 
-### Credits
+## Credits
 
 Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
 
 Credit to Andrej Karpathy for providing an implementation of minGPT.
 
 
-#### Troubleshooting
+## Troubleshooting
 
 Kill ddp processes
 
