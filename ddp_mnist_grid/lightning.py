@@ -63,6 +63,7 @@ class LiftModel(LightningModule):
         scheduler = StepLR(optimizer, step_size=1, gamma=self.hparams.gamma)
         return [optimizer], [scheduler]
 
+
 class MnistDataModule(LightningDataModule):
 
     def __init__(self, *args, **kwargs):
@@ -115,7 +116,7 @@ def main():
 
     dm = MnistDataModule(train_batch_size=args.batch_size, test_batch_size=args.test_batch_size, num_workers=1, pin_memory=use_cuda, shuffle=True)
 
-    net =  Net()
+    net = Net()
     model = LiftModel(net, lr=args.lr, gamma=args.gamma)
 
     trainer = Trainer.from_argparse_args(args)
