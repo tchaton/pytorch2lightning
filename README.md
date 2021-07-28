@@ -1,6 +1,8 @@
 # Pytorch 2 Lightning Examples
 
-Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
+The repository shows how to convert a pure PyTorch classifier net on mnist to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) and how Lightning makes it trivial to use more features.
+
+![Minst Dataset](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2Fsyncedreview%2Fmnist-reborn-restored-and-expanded-additional-50k-training-samples-70c6f8a9e9a9&psig=AOvVaw14Xj80gG_pcBtYbwq3jR9S&ust=1627547916614000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCICG-M6uhfICFQAAAAAdAAAAABAD)
 
 # Bare MNIST
 * [PyTorch](bare_mnist/pytorch.py)
@@ -37,3 +39,8 @@ Here is [Docs](https://docs.grid.ai/platform/about-these-features/multi-node)
 ## Lightning contains hundreds of features working together and highly tested for speed and reproducibility.
 
 Learn more with [Lighting Docs](https://pytorch-lightning.readthedocs.io/en/stable/)
+
+
+### Credits
+
+Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
