@@ -68,7 +68,7 @@ Add `--use_spot` to use preemptive machines.
 
 
 ```bash
-grid run --instance_type 4_M60_8gb --gpus 8 ddp_mnist_grid/lightning.py --max_epochs 2 --num_nodes 2 --gpus 4 --precision 16 --accelerator ddp_sharded
+grid run --instance_type 4_M60_8gb --gpus 8 --datastore_name mnist --datastore_mount_dir data  ddp_mnist_grid/lightning.py --max_epochs 2 --num_nodes 2 --gpus 4 --precision 16 --accelerator ddp
 ```
 
 Train [Andrej Karpathy](https://karpathy.ai) [minGPT](https://github.com/karpathy/minGPT) converted to [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) by [@williamFalcon](https://github.com/williamFalcon) and bencharmked with DeepSpeed by [@SeanNaren](https://github.com/SeanNaren)
