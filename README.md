@@ -81,6 +81,42 @@ grid run --instance_type g4dn.12xlarge --gpus 8 benchmark.py --n_layer 6 --n_hea
 
 Learn how to scale your scripts with [PyTorch Lighting + DeepSpeed](https://devblog.pytorchlightning.ai/accessible-multi-billion-parameter-model-training-with-pytorch-lightning-deepspeed-c9333ac3bb59)
 
+Train a Lightning Flash [Video Classifier](https://github.com/PyTorchLightning/lightning-flash/blob/master/flash_examples/video_classification.py)
+
+```py
+import os
+
+import flash
+from flash.core.data.utils import download_data
+from flash.video import VideoClassificationData, VideoClassifier
+
+# 1. Create the DataModule
+# Find more datasets at https://pytorchvideo.readthedocs.io/en/latest/data.html
+download_data("https://pl-flash-data.s3.amazonaws.com/kinetics.zip", "./data")
+
+datamodule = VideoClassificationData.from_folders(
+    train_folder=os.path.join(os.getcwd(), "data/kinetics/train"),
+    val_folder=os.path.join(os.getcwd(), "data/kinetics/val"),
+    clip_sampler="uniform",
+    clip_duration=1,
+    decode_audio=False,
+)
+
+# 2. Build the task
+model = VideoClassifier(backbone="x3d_xs", num_classes=datamodule.num_classes, pretrained=False)
+
+# 3. Create the trainer and finetune the model
+trainer = flash.Trainer(max_epochs=3)
+trainer.finetune(model, datamodule=datamodule, strategy="freeze")
+
+# 4. Make a prediction
+predictions = model.predict(os.path.join(os.getcwd(), "data/kinetics/predict"))
+print(predictions)
+
+# 5. Save the model!
+trainer.save_checkpoint("video_classification.pt")
+```
+
 ### Credits
 
 Credit to PyTorch Team for providing the [Bare Mnist example](https://github.com/pytorch/examples/blob/master/mnist/main.py).
