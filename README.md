@@ -15,11 +15,11 @@ The repository shows :
 * [Lightning](ddp_mnist/lightning.py) | +0 lines 
 
 # DDP MNIST + Accumulate gradients
-* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +5 lines 
+* [PyTorch](ddp_mnist_accumulate_gradients/pytorch.py) | +35 lines 
 * [Lightning](ddp_mnist_accumulate_gradients/lightning.py) | +0 lines 
 
 # DDP MNIST + Profiling + Accumulate gradients
-* [PyTorch](ddp_profiler_mnist/pytorch.py) | +25 lines 
+* [PyTorch](ddp_profiler_mnist/pytorch.py) | +60 lines 
 * [Lightning](ddp_profiler_mnist/lightning.py) | +0 lines 
 
 # DDP MNIST + Grid.ai
