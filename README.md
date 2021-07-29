@@ -6,6 +6,8 @@ The repository will show you how to:
 * Seamlessly scale your training in the cloud with [Grid.ai](https://www.grid.ai/) - No code changes.
 * Learn about [Lighting Flash](https://github.com/PyTorchLightning/lightning-flash) and its 15+ production ready tasks. 
 
+[![Alt text](https://img.youtube.com/vi/A1bkh4gNDJA/0.jpg)](https://www.youtube.com/watch?v=A1bkh4gNDJA)
+
 ## Bare MNIST Classifier
 ![Minst Dataset](https://miro.medium.com/max/800/1*LyRlX__08q40UJohhJG9Ow.png)
 
