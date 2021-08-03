@@ -19,7 +19,8 @@ class RandomDataset(Dataset):
         return self.len
 
 
-# Credit to the PyTorch Lightning Team: https://github.com/PyTorchLightning/pytorch-lightning/blob/master/pytorch_lightning/plugins/environments/torchelastic_environment.py
+# Credit to the PyTorch Lightning Team
+# https://github.com/PyTorchLightning/pytorch-lightning/blob/master/pytorch_lightning/plugins/environments/torchelastic_environment.py
 class TorchElasticEnvironment:
     """Environment for fault-tolerant and elastic training with `torchelastic <https://pytorch.org/elastic/>`_"""
 
