@@ -64,6 +64,13 @@ grid datastore create --name mnist --source data
 grid run --instance_type 4_M60_8gb --datastore_name mnist --datastore_mount_dir data ddp_mnist_grid/lightning.py  --trainer.max_epochs 2 --trainer.gpus 4 --trainer.accelerator ddp
 ```
 
+Pure PyTorch:
+
+```bash
+grid datastore create --name mnist --source data
+grid run --instance_type g4dn.xlarge --gpus 2 ddp_mnist_grid/boring_pytorch.py
+```
+
 Add `--use_spot` to use interruptible machines.
 
 [Grid.ai](https://www.grid.ai/) makes scaling multi node training easy :rocket: Train on 2+ nodes with 4 GPUS using [DDP Sharded](https://medium.com/pytorch/pytorch-lightning-1-1-model-parallelism-training-and-more-logging-options-7d1e47db7b0b) :fire:
