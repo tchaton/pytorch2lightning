@@ -49,11 +49,13 @@ def init_ddp(global_rank, world_size):
 
 def create_dataloader(rank, world_size):
     dataset = RandomDataset(32, 64)
-    return DataLoader(dataset, DistributedSampler(dataset, num_replicas=world_size, rank=rank), batch_size=2)
+    sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
+    return DataLoader(dataset, sampler=sampler, batch_size=2)
 
 def create_model_and_optimizer(rank, world_size):
-    model = torch.nn.Linear(32, 2)
-    model = DistributedDataParallel(model, device_ids=[rank])
+    device = torch.device(f"cuda:{rank}")
+    model = torch.nn.Linear(32, 2).to(device)
+    model = DistributedDataParallel(model, device_ids=[device])
     return model, torch.optim.SGD(model.parameters(), lr=0.1)
 
 def train(model, optimizer, dataloader, device):
@@ -67,10 +69,12 @@ def train(model, optimizer, dataloader, device):
 
 if __name__ == "__main__":
 
+    # python -m torch.distributed.launch --nproc_per_node=2 ddp_mnist_grid/boring_pytorch.py
+
     # 1. capture env variables
     cluster = TorchElasticEnvironment()
-    #if not cluster.is_using_torchelastic():
-    #    raise Exception("This script should be run on a Torch Elastic Cluster.")
+    if not cluster.is_using_torchelastic():
+        raise Exception("This script should be run on a Torch Elastic Cluster.")
     global_rank = cluster.global_rank()
     world_size = cluster.world_size()
 
@@ -89,3 +93,6 @@ if __name__ == "__main__":
 
     # 6. train
     train(model, optimizer, dataloader, device)
+
+    # 7. clean distributed training
+    torch.distributed.destroy_process_group()
